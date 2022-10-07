@@ -4,20 +4,20 @@ components:
       MLF_HOST: https://app.devtest.truefoundry.tech/
       MLF_API_KEY: tfy-secret://cloud:mlf-api-key:value
       MLF_MODEL_FQN: model:truefoundry/cloud/iris-classification-badal/iris-model-sklearn:1
-    name: iris-service
+    name: iris-service-cli
     type: service
     image:
       type: build
+      build_source:
+        type: local
       build_spec:
         type: tfy-python-buildpack
         command: uvicorn inference_api:app --port 8080 --host 0.0.0.0
         python_version: '3.9'
         requirements_path: requirements.txt
-        build_context_path: ./service
     ports:
       - port: 8080
         expose: true
-        protocol: TCP
     command: ''
     replicas: 1
     resources:
